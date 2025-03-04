@@ -11,32 +11,32 @@ import { Registro } from '../registro.model';
   styleUrl: './formulario.component.css'
 })
 export class FormularioComponent {
-tipo: string='ingresoOperacion';
-tipoOperacion(evento: Event) {
-  const elementoSelect=evento.target as HTMLSelectElement;
-  this.tipo=elementoSelect.value;
-}
+  tipo: string = 'ingresoOperacion';
+  tipoOperacion(evento: Event) {
+    const elementoSelect = evento.target as HTMLSelectElement;
+    this.tipo = elementoSelect.value;
+  }
 
   constructor(private flujoService: FlujoDineroService) {
 
   }
 
   nuevaDescripcion: string = '';
-  nuevoPrecio: number = 0 ;
+  nuevoPrecio: number = 0;
 
-  agregarFlujo(opcionSeleccionada:string):void {
-    if(opcionSeleccionada=='ingresoOperacion'){
-      this.flujoService.agregarIngreso(new Registro(this.nuevaDescripcion,this.nuevoPrecio));
-      this.nuevaDescripcion='';
-      this.nuevoPrecio=0;
+  agregarFlujo(opcionSeleccionada: string): void {
+    if (this.nuevaDescripcion && this.nuevoPrecio > 0) {
+      if (opcionSeleccionada == 'ingresoOperacion') {
+        this.flujoService.agregarIngreso(new Registro(this.nuevaDescripcion, this.nuevoPrecio));
+      }
+      else {
+        this.flujoService.agregarEgreso(new Registro(this.nuevaDescripcion, this.nuevoPrecio))
+      }
     }
-    else{
-      this.flujoService.agregarEgreso(new Registro(this.nuevaDescripcion,this.nuevoPrecio))
-      this.nuevaDescripcion='';
-      this.nuevoPrecio=0;
-    }
+    this.nuevaDescripcion = '';
+    this.nuevoPrecio = 0;
   }
 
-  
+
 
 }
